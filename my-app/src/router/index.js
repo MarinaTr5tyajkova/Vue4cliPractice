@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue';
+import { createStore } from 'vuex';
+import { login, register, addCart } from '../utils/api';
 
 
 const routes = [
@@ -7,6 +7,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+  },
+  {
+    path:'/signup',
+    name: 'signup',
+    component: () => import('../components/Register.vue')
   },
   
 ];
