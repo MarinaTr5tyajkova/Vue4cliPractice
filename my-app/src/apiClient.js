@@ -1,3 +1,4 @@
+// src/apiClient.js
 const apiClient = {
     async getProducts() {
       try {
@@ -5,7 +6,7 @@ const apiClient = {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming you need to send the token
           }
         });
   
@@ -14,7 +15,7 @@ const apiClient = {
         }
   
         const data = await response.json();
-        return { data }; 
+        return { data }; // Wrap the data in an object to mimic Axios response structure
       } catch (error) {
         console.error('API call failed:', error);
         throw error;
