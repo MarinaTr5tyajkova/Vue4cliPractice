@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     isAuthenticated: false,
-    userRole: null, // 'client' или null
+    userRole: null, 
     cart: [],
   },
   mutations: {
