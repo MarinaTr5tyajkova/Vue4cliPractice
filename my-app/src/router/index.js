@@ -35,9 +35,9 @@ const routes = [
     component: () => import('../components/Register.vue')
   },
   {
-    path:'/cart',
-    name: 'cart',
-    component: () => import('../components/Cart.vue')
+    path:'/logout',
+    name:'logout',
+    component: () => import('../components/Logout.vue')
   },
 ];
 

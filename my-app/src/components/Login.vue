@@ -184,15 +184,4 @@
     cursor: not-allowed;
     opacity: 0.8;
   }
-  
-  @media (max-width: 480px) {
-    .login-form {
-      padding: 1.5rem;
-      margin: 1rem;
-    }
-    
-    .form-title {
-      font-size: 1.5rem;
-    }
-  }
   </style>
