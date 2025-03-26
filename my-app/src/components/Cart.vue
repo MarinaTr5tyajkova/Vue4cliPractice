@@ -18,13 +18,13 @@
           <div class="product-image">
             <img :src="product.image" :alt="product.name">
           </div>
-          
+  
           <div class="product-info">
             <h3 class="product-name">{{ product.name }}</h3>
             <p class="product-description">{{ product.description }}</p>
             <div class="product-price">{{ product.price }} руб.</div>
           </div>
-          
+  
           <div class="product-controls">
             <div class="quantity-control">
               <button @click="decreaseCount(product)" class="quantity-btn minus-btn">-</button>
@@ -71,7 +71,37 @@
       },
       checkout() {
         if (this.isAuthenticated) {
-          this.$router.push('/checkout');
+          const cartData = this.cartProducts.map(product => ({
+            id: product.id,
+            quantity: product.count,
+          }));
+  
+          fetch(`${API}/order`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(cartData),
+          })
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+          })
+          .then(data => {
+            console.log(data);
+            // Обработайте успешный ответ от сервера
+            this.$router.push('/orders'); // Переход на страницу заказов
+            this.$store.dispatch('clearCart'); // Очистка корзины
+          })
+          .catch(error => {
+            console.error('Ошибка при оформлении заказа:', error);
+            // Обработайте ошибку
+          });
         }
       }
     },
@@ -293,3 +323,4 @@
     cursor: not-allowed;
   }
   </style>
+  

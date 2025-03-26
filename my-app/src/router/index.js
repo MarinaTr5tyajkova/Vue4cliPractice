@@ -1,4 +1,4 @@
-import store from '@/store'; 
+import store from '@/store';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const ifNotAuthenticated = (to, from, next) => {
@@ -43,6 +43,12 @@ const routes = [
     path:'/logout',
     name:'logout',
     component: () => import('../components/Logout.vue')
+  },
+  {
+    path: '/orders',
+    name: 'orders',
+    component: () => import('../components/Orders.vue'),
+    beforeEnter: ifAuthenticated,
   }
 ]
 
@@ -51,5 +57,4 @@ const router = createRouter({
   routes,
 });
 
-
-export default router
+export default router;

@@ -5,7 +5,7 @@
         <div class="nav-links">
           <router-link to="/">Каталог</router-link>
           <router-link to="/cart">Корзина</router-link>
-          <router-link to="/history">Заказы</router-link>
+          <router-link to="/orders" v-if="isAuthenticated">Мои заказы</router-link>
         </div>
         <div class="auth-links">
           <router-link to="/login" v-if="!isAuthenticated">Вход</router-link>

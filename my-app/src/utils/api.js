@@ -72,3 +72,27 @@ export const addCart = async (productId, token) => {
         throw error;
     }
 };
+
+export const fetchOrders = async () => {
+    try {
+      const response = await fetch(`${API}/order`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        return data.data;
+      } else {
+        throw new Error('Ошибка при загрузке заказов');
+      }
+    } catch (error) {
+      console.error('Ошибка при загрузке заказов:', error);
+      throw error;
+    }
+  };
+  
