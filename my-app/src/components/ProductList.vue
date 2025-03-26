@@ -66,7 +66,6 @@
             this.$router.push("/");
           })
       },
-  
     },
     computed: {
       ...mapGetters(['isAuthenticated']),
@@ -75,67 +74,88 @@
   </script>
   
   <style scoped>
-  h1 {
-    margin-bottom: 60px;
-  }
+ 
+h1 {
+  margin-bottom: 60px;
+  color: #333; 
+  text-align: center;
+}
+
+.products {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px; 
+  list-style: none; 
+  padding: 0; 
+}
+
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  border-radius: 12px; 
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0; 
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); 
+}
+
+
+img {
+  width: 100%;
+  height: 200px; 
+  object-fit: cover; 
+   
+}
+
+
+.product-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff; 
+  margin: 15px 0;
+}
+
+
+.product-description {
+  text-align: center;
+  color: #555; 
+  font-size: 14px;
+  padding: 0 10px 10px;
+  min-height: 60px; 
+}
+
+
+button {
+  width: 95%;
+  padding: 10px;
+  margin: 10px auto 20px;
+  border: none;
+  border-radius: 8px; 
+  background: linear-gradient(to right, #007bff, #00bfff); 
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
   
-  .products {
-    max-width: 1200px;
-    margin: 30px auto;
-  }
-  
-  ul {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 70px;
-  }
-  
-  .product-card {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    width: 250px;
-    border-radius: 6px;
-    background: #fff;
-    box-shadow: -2px 3px 11px rgba(87, 87, 87, 0.192);
-  }
-  
-  img {
-    width: 100%;
-    height: 300px;
-    object-fit: contain;
-  
-  
-  }
-  
-  .product-price {
-    color: #02974d;
-    font-weight: bold;
-    font-size: 22px;
-    margin: 0 0 15px 0;
-    padding: 0 20px 0;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 122px;
-  }
-  
-  .product-description {
-    text-align: left;
-    padding: 0 20px 10px;
-  }
-  
-  button {
-    width: 100%;
-    height: 30px;
-    border-radius: 6px;
-    background: #ed4172;
-    color: #fff;
-    font-weight: bold;
-  }
+}
+
+button:hover {
+  background: linear-gradient(to right, #0056b3, #0069d9); 
+}
   </style>
   

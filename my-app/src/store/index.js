@@ -3,7 +3,8 @@ import { login, register, addCart } from '../utils/api';
 
 export default createStore({
   state: {
-    token: localStorage.getItem('myAppToken') || '',
+    token: localStorage.getItem('myAppToken') || '', 
+    cartProducts: [], 
     cartProducts: JSON.parse(localStorage.getItem('cartProducts')) || [],
     order: [],
   },
@@ -18,6 +19,23 @@ export default createStore({
     },
     AUTH_ERROR: (state) => {
       state.token = ''; 
+    },
+    ADD_TO_CART(state, product) {
+      const existingProduct = state.cartProducts.find((p) => p.id === product.id);
+      if (existingProduct) {
+        existingProduct.count += 1;
+      } else {
+        state.cartProducts.push({ ...product, count: 1 }); 
+      }
+    },
+    REMOVE_FROM_CART(state, productId) {
+      state.cartProducts = state.cartProducts.filter((p) => p.id !== productId); 
+    },
+    DECREASE_COUNT(state, productId) {
+      const product = state.cartProducts.find((p) => p.id === productId);
+      if (product && product.count > 1) {
+        product.count -= 1;
+      }
     },
     SAVE_CART_TO_LOCAL_STORAGE(state) {
       localStorage.setItem('cartProducts', JSON.stringify(state.cartProducts));
@@ -61,6 +79,28 @@ export default createStore({
         localStorage.removeItem('myAppToken');
         resolve();
       });
+    },
+    addToCartWithAPI: ({ commit, state }, productData) => {
+      return addCart(productData.id, state.token)  
+          .then((message) => {
+              commit('ADD_TO_CART', productData);
+              commit('SAVE_CART_TO_LOCAL_STORAGE');
+              return message;
+          });
+  },
+    
+    saveStateCart(context) {
+      const cartProducts = context.state.cartProducts; 
+      localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
+    },
+    
+    removeFromCart({ commit, dispatch }, productId) {
+      commit('REMOVE_FROM_CART', productId); 
+      dispatch('saveStateCart');
+    },
+    decreaseCount({ commit, dispatch }, productId) {
+      commit('DECREASE_COUNT', productId); 
+      dispatch('saveStateCart');
     },
   },
 });

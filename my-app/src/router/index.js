@@ -1,5 +1,5 @@
-import { createStore } from 'vuex';
-import { login, register, addCart } from '../utils/api';
+import store from '@/store'; 
+import { createRouter, createWebHistory } from 'vue-router'
 
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
@@ -35,15 +35,21 @@ const routes = [
     component: () => import('../components/Register.vue')
   },
   {
+    path:'/cart',
+    name: 'cart',
+    component: () => import('../components/Cart.vue')
+  },
+  {
     path:'/logout',
     name:'logout',
     component: () => import('../components/Logout.vue')
-  },
-];
+  }
+]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
 });
 
-export default router;
+
+export default router

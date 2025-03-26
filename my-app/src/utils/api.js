@@ -53,3 +53,22 @@ export const login = async (user) => {
         throw error;
     }
 };
+
+export const addCart = async (productId, token) => {
+    try {
+        const response = await fetch(`${API}/cart/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.data.message;
+    } catch (error) {
+        console.error('Error adding to cart:', error.message);
+        throw error;
+    }
+};
