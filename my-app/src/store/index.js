@@ -1,34 +1,66 @@
 import { createStore } from 'vuex';
+import { login, register, addCart } from '../utils/api'; 
 
 export default createStore({
   state: {
-    isAuthenticated: false,
-    userRole: null, 
-    cart: [],
+    token: localStorage.getItem('myAppToken') || '',
+    cartProducts: JSON.parse(localStorage.getItem('cartProducts')) || [],
+    order: [],
   },
+
+  getters: {
+    isAuthenticated: (state) => !!state.token, 
+  },
+
   mutations: {
-    SET_AUTH(state, payload) {
-      state.isAuthenticated = payload.isAuthenticated;
-      state.userRole = payload.userRole;
+    AUTH_SUCCESS: (state, token) => {
+      state.token = token; 
     },
-    ADD_TO_CART(state, product) {
-      state.cart.push(product);
+    AUTH_ERROR: (state) => {
+      state.token = ''; 
     },
-    LOGOUT(state) {
-      state.isAuthenticated = false;
-      state.userRole = null;
-      state.cart = [];
+    SAVE_CART_TO_LOCAL_STORAGE(state) {
+      localStorage.setItem('cartProducts', JSON.stringify(state.cartProducts));
     },
   },
+
   actions: {
-    login({ commit }, role) {
-      commit('SET_AUTH', { isAuthenticated: true, userRole: role });
+    AUTH_REQUEST: ({ commit }, credentials) => {
+      return new Promise((resolve, reject) => {
+        login(credentials)
+          .then((token) => {
+            commit('AUTH_SUCCESS', token);
+            localStorage.setItem('myAppToken', token);
+            resolve(token);
+          })
+          .catch((error) => {
+            commit('AUTH_ERROR');
+            localStorage.removeItem('myAppToken');
+            reject(error);
+          });
+      });
     },
-    logout({ commit }) {
-      commit('LOGOUT');
+    REGISTER_REQUEST: ({ commit }, userData) => {
+      return new Promise((resolve, reject) => {
+        register(userData)
+          .then((token) => {
+            commit('AUTH_SUCCESS', token);
+            localStorage.setItem('myAppToken', token);
+            resolve(token);
+          })
+          .catch((error) => {
+            commit('AUTH_ERROR');
+            localStorage.removeItem('myAppToken');
+            reject(error);
+          });
+      });
     },
-    addToCart({ commit }, product) {
-      commit('ADD_TO_CART', product);
+    LOGOUT: ({ commit }) => {
+      return new Promise((resolve) => {
+        commit('AUTH_ERROR');
+        localStorage.removeItem('myAppToken');
+        resolve();
+      });
     },
   },
 });
